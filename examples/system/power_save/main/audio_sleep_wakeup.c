@@ -125,13 +125,13 @@ static void uart_wakeup_task(void *arg)
                 esp_pm_lock_acquire(s_pm_cpu_lock);
                 ESP_LOGW(TAG, "Send uart wakeup group event");
                 xEventGroupSetBits(wakeup_event_group, UART_WAKEUP_BIT);
-                vTaskDelay(10 / portTICK_RATE_MS);
+                vTaskDelay(10 / portTICK_PERIOD_MS);
             }
 #endif
             ESP_LOGD(TAG, "Uart%d recved event:%d", EXAMPLE_UART_NUM, event.type);
             switch(event.type) {
                 case UART_DATA:
-                    uart_rx_len = uart_read_bytes(EXAMPLE_UART_NUM, dtmp, SOC_UART_FIFO_LEN, 100 / portTICK_RATE_MS);
+                    uart_rx_len = uart_read_bytes(EXAMPLE_UART_NUM, dtmp, SOC_UART_FIFO_LEN, 100 / portTICK_PERIOD_MS);
                     dtmp[uart_rx_len] = '\0';
                     ESP_LOGI(TAG, "[UART DATA]: %s, data size: %d", dtmp, uart_rx_len);
                     uart_wait_tx_idle_polling(EXAMPLE_UART_NUM);
@@ -318,7 +318,7 @@ static esp_err_t light_sleep_gpio_wakeup(gpio_num_t gpio_num, gpio_int_type_t in
     /* Make sure the GPIO is inactive and it won't trigger wakeup immediately */
     while (gpio_get_level(gpio_num) == (intr_type == GPIO_INTR_LOW_LEVEL ? 0 : 1)) {
         ESP_LOGI(TAG, "Wait to %s", intr_type == GPIO_INTR_LOW_LEVEL ? "high" : "low");
-        vTaskDelay(100 / portTICK_RATE_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }
     ESP_LOGI(TAG, "GPIO wakeup source(GPIO[%d], wakeup_level[%s]) is ready", gpio_num, intr_type == GPIO_INTR_LOW_LEVEL ? "LOW" : "HIGH");
 
@@ -481,7 +481,7 @@ static void light_sleep_wakeup_source_init(void)
 {
     timer_wakeup(30 * 1000, false);
     xTaskCreate(gpio_task_example, "gpio_task_example", 4096, NULL, 10, &gpio_task_handle);
-    vTaskDelay(10 / portTICK_RATE_MS);
+    vTaskDelay(10 / portTICK_PERIOD_MS);
 }
 
 static void light_sleep_wakeup_source_deinit(void)
@@ -509,7 +509,7 @@ void enter_power_manage(void)
     light_sleep_wakeup_source_init();
 
     while (esp_pm_lock_release(s_pm_cpu_lock) == ESP_OK) {
-        vTaskDelay(50 / portTICK_RATE_MS);
+        vTaskDelay(50 / portTICK_PERIOD_MS);
     }
     xEventGroupSetBits(wakeup_event_group, ENTER_SLEEP_BIT);
     xEventGroupWaitBits(wakeup_event_group, WAKEUP_GROUP_BIT, true, false, portMAX_DELAY);
@@ -519,7 +519,7 @@ void enter_power_manage(void)
     xEventGroupClearBits(wakeup_event_group, ENTER_SLEEP_BIT);
     get_wakeup_cause();
     light_sleep_wakeup_source_deinit();
-    vTaskDelay(10 / portTICK_RATE_MS);
+    vTaskDelay(10 / portTICK_PERIOD_MS);
 }
 
 static void register_gpio_wakeup_in_deep_sleep(gpio_num_t gpio_num, uint8_t gpio_wakeup_level)

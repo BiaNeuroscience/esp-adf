@@ -47,7 +47,7 @@ static int _el_read(audio_element_handle_t self, char *buffer, int len, TickType
 static int _el_process(audio_element_handle_t self, char *in_buffer, int in_len, char *out_buffer, int out_len)
 {
     ESP_LOGI(TAG, "_el_process");
-    vTaskDelay(100/portTICK_RATE_MS);
+    vTaskDelay(100/portTICK_PERIOD_MS);
     return in_len;
 }
 
@@ -83,11 +83,11 @@ TEST_CASE("audio_element", "esp-adf")
     TEST_ASSERT_NOT_NULL(el);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_run(el));
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_resume(el, 0, 0));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_pause(el));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_resume(el, 0, 0));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
 
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_stop(el));
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_deinit(el));
@@ -115,11 +115,11 @@ TEST_CASE("audio_element_input_rb", "esp-adf")
     TEST_ASSERT_NOT_NULL(el);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_run(el));
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_resume(el, 0, 0));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_pause(el));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_resume(el, 0, 0));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
 
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_stop(el));
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_deinit(el));
@@ -148,11 +148,11 @@ TEST_CASE("audio_element_output_rb", "esp-adf")
     TEST_ASSERT_NOT_NULL(el);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_run(el));
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_resume(el, 0, 0));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_pause(el));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_resume(el, 0, 0));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
 
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_stop(el));
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_deinit(el));
@@ -184,11 +184,11 @@ TEST_CASE("audio_element_input_output_rb", "esp-adf")
     TEST_ASSERT_NOT_NULL(el);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_run(el));
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_resume(el, 0, 0));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_pause(el));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_resume(el, 0, 0));
-    vTaskDelay(2000/portTICK_RATE_MS);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
 
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_stop(el));
     TEST_ASSERT_EQUAL(ESP_OK, audio_element_deinit(el));

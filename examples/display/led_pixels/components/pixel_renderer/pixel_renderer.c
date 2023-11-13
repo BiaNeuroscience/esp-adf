@@ -33,8 +33,8 @@
 #include "esp_rom_sys.h"
 
 #define   PIXEL_RENDERER_RESET_US          (280)
-#define   PIXEL_RENDERER_STOP_WAITTIME     (8000 / portTICK_RATE_MS)
-#define   PIXEL_RENDERER_INQUEUE_WAITTIME  (2000 / portTICK_RATE_MS)
+#define   PIXEL_RENDERER_STOP_WAITTIME     (8000 / portTICK_PERIOD_MS)
+#define   PIXEL_RENDERER_INQUEUE_WAITTIME  (2000 / portTICK_PERIOD_MS)
 
 static const char *TAG = "PIXEL_RENDERER";
 const static int PIXEL_RENDERER_STOPPED_BIT = BIT0;

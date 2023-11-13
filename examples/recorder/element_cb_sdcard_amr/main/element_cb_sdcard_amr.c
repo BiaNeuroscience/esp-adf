@@ -136,7 +136,7 @@ void app_main(void)
     /* Record for RECORD_TIME_SECONDS seconds. */
     ESP_LOGI(TAG, "[6.0] Record audio for %d seconds", RECORD_TIME_SECONDS);
     for (int i = 1; i <= RECORD_TIME_SECONDS; i++) {
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         ESP_LOGI(TAG, "[ * ] Recorded %d seconds...", i);
     }
 

@@ -140,7 +140,7 @@ static esp_err_t input_key_service_cb(periph_service_handle_t handle, periph_ser
                     cx_handle->work_mode = WIFI_MODE;
                     if (g_a2dp_connect_state == true) {
                         periph_bt_pause(cx_handle->bt_periph);
-                        vTaskDelay(300 / portTICK_RATE_MS);
+                        vTaskDelay(300 / portTICK_PERIOD_MS);
                     }
                     esp_audio_stop(cx_handle->player, TERMINATION_TYPE_NOW);
                     if (g_wifi_connect_state == true) {

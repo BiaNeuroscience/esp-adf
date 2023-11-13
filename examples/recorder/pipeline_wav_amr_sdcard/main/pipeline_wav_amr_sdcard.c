@@ -155,7 +155,7 @@ void app_main()
     int second_recorded = 0;
     while (1) {
         audio_event_iface_msg_t msg;
-        if (audio_event_iface_listen(evt, &msg, 1000 / portTICK_RATE_MS) != ESP_OK) {
+        if (audio_event_iface_listen(evt, &msg, 1000 / portTICK_PERIOD_MS) != ESP_OK) {
             second_recorded++;
             ESP_LOGI(TAG, "[ * ] Recording ... %d", second_recorded);
             if (second_recorded >= RECORD_TIME_SECONDS) {

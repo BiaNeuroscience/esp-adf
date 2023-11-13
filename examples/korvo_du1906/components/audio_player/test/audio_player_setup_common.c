@@ -486,7 +486,7 @@ audio_element_handle_t create_audio_forge(void)
 
 void audio_player_callback(audio_player_state_t *audio, void *ctx)
 {
-    if (xQueueSend((QueueHandle_t)ctx, audio, 5000 / portTICK_RATE_MS) != pdPASS) {
+    if (xQueueSend((QueueHandle_t)ctx, audio, 5000 / portTICK_PERIOD_MS) != pdPASS) {
         ESP_LOGE(TAG, "AUDIO_PLAYER_CALLBACK send failure, status:%d, err_msg:%x, media_src:%x, ctx:%p",
                  audio->status, audio->err_msg, audio->media_src, ctx);
     } else {
@@ -728,7 +728,7 @@ void clear_queue_events(QueueHandle_t que)
 audio_player_status_t audio_player_status_check(QueueHandle_t que, int ticks_ms)
 {
     audio_player_state_t st = {0};
-    if (xQueueReceive(que, &st, ticks_ms / portTICK_RATE_MS) != pdPASS) {
+    if (xQueueReceive(que, &st, ticks_ms / portTICK_PERIOD_MS) != pdPASS) {
         return ESP_FAIL;
     }
 

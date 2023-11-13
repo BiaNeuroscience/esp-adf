@@ -142,7 +142,7 @@ static void key_act_state_hdl_idle(key_act_cb_t *key_cb, bt_key_act_param_t *par
         key_cb->tl = param->tl;
         key_cb->key_code = param->key_code;
         esp_avrc_ct_send_passthrough_cmd(param->tl, param->key_code, ESP_AVRC_PT_CMD_STATE_PRESSED);
-        xTimerStart(key_cb->key_tmr, 500 / portTICK_RATE_MS);
+        xTimerStart(key_cb->key_tmr, 500 / portTICK_PERIOD_MS);
         key_cb->state = KEY_ACT_STATE_PRESS;
     }
 }
@@ -163,7 +163,7 @@ static void key_act_state_hdl_press(key_act_cb_t *key_cb, bt_key_act_param_t *pa
         }
         key_cb->tl = (key_cb->tl + 1) & 0x0F;
         esp_avrc_ct_send_passthrough_cmd(key_cb->tl, param->key_code, ESP_AVRC_PT_CMD_STATE_RELEASED);
-        xTimerReset(key_cb->key_tmr, 500 / portTICK_RATE_MS);
+        xTimerReset(key_cb->key_tmr, 500 / portTICK_PERIOD_MS);
         key_cb->state = KEY_ACT_STATE_RELEASE;
     } else if (param->evt == ESP_AVRC_CT_PT_RSP_TO_EVT) {
         key_cb->tl = 0;
@@ -185,7 +185,7 @@ static void key_act_state_hdl_release(key_act_cb_t *key_cb, bt_key_act_param_t *
             || ESP_AVRC_PT_CMD_STATE_RELEASED != param->key_state) {
             return;
         }
-        xTimerStop(key_cb->key_tmr, 500 / portTICK_RATE_MS);
+        xTimerStop(key_cb->key_tmr, 500 / portTICK_PERIOD_MS);
         key_cb->state = KEY_ACT_STATE_IDLE;
         key_cb->key_code = 0;
     } else if (param->evt == ESP_AVRC_CT_PT_RSP_TO_EVT) {

@@ -66,7 +66,7 @@ struct audio_pipeline {
     audio_element_list_t        el_list;
     ringbuf_list_t              rb_list;
     audio_element_state_t       state;
-    xSemaphoreHandle            lock;
+    SemaphoreHandle_t            lock;
     bool                        linked;
     audio_event_iface_handle_t  listener;
 };
@@ -315,10 +315,10 @@ esp_err_t audio_pipeline_resume(audio_pipeline_handle_t pipeline)
             continue;
         }
         if (wait_first_el) {
-            ret |= audio_element_resume(el_item->el, 0, 2000 / portTICK_RATE_MS);
+            ret |= audio_element_resume(el_item->el, 0, 2000 / portTICK_PERIOD_MS);
             wait_first_el = false;
         } else {
-            ret |= audio_element_resume(el_item->el, 0, 2000 / portTICK_RATE_MS);
+            ret |= audio_element_resume(el_item->el, 0, 2000 / portTICK_PERIOD_MS);
         }
     }
     audio_pipeline_change_state(pipeline, AEL_STATE_RUNNING);

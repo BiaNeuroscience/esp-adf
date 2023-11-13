@@ -33,7 +33,7 @@
 #include "pixel_renderer.h"
 
 #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 4, 0))
-#define   CNV_STOP_WAITTIME         (8000 / portTICK_RATE_MS)
+#define   CNV_STOP_WAITTIME         (8000 / portTICK_PERIOD_MS)
 
 static const char *TAG = "CNV";
 const static int CNV_STOPPED_BIT = BIT0;

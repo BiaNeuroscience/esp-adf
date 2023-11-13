@@ -11,7 +11,7 @@
 #if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
 #define TICK_PER_MS portTICK_PERIOD_MS
 #else
-#define TICK_PER_MS portTICK_RATE_MS
+#define TICK_PER_MS portTICK_PERIOD_MS
 #endif
 
 #define TAG "I2C_If"

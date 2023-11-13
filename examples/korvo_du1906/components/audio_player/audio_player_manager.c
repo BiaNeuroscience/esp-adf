@@ -66,7 +66,7 @@ typedef STAILQ_HEAD(ap_ops_list, ap_ops_item) ap_ops_list_t;
 
 typedef struct audio_player_impl {
     esp_audio_handle_t              audio_handle;
-    xSemaphoreHandle                lock_handle;
+    SemaphoreHandle_t               lock_handle;
     audio_thread_t                  tsk_handle;
     QueueHandle_t                   sync_state_que;
     QueueHandle_t                   cmd_que;

@@ -270,13 +270,13 @@ void app_main(void)
 #else
         count = 40;
         // Some task to do
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
 #endif
         enter_power_manage();
     }
 
     // Some task to do
-    vTaskDelay(5000 / portTICK_RATE_MS);
+    vTaskDelay(5000 / portTICK_PERIOD_MS);
 
     ESP_LOGW(TAG, "Enter deep sleep");
 #if SOC_PM_SUPPORT_EXT_WAKEUP

@@ -35,7 +35,7 @@
 
 static const char *TAG = "ESP_PERIPH";
 
-#define DEFAULT_ESP_PERIPH_WAIT_TICK       (10/portTICK_RATE_MS)
+#define DEFAULT_ESP_PERIPH_WAIT_TICK       (10/portTICK_PERIOD_MS)
 
 struct esp_periph {
     char                       *tag;
@@ -54,7 +54,7 @@ struct esp_periph {
 
 typedef struct esp_periph_sets {
     EventGroupHandle_t                              state_event_bits;
-    xSemaphoreHandle                                lock;
+    SemaphoreHandle_t                               lock;
     int                                             task_stack;
     int                                             task_prio;
     int                                             task_core;
@@ -88,7 +88,7 @@ static esp_err_t process_peripheral_event(audio_event_iface_msg_t *msg, void *co
 
 esp_err_t esp_periph_set_change_waiting_time(esp_periph_set_handle_t periph_set_handle, int time_ms)
 {
-    audio_event_iface_set_cmd_waiting_timeout(esp_periph_set_get_event_iface(periph_set_handle), time_ms / portTICK_RATE_MS);
+    audio_event_iface_set_cmd_waiting_timeout(esp_periph_set_get_event_iface(periph_set_handle), time_ms / portTICK_PERIOD_MS);
     return ESP_OK;
 }
 

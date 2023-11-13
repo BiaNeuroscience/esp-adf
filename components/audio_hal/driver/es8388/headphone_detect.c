@@ -51,7 +51,7 @@ static void hp_timer_cb(TimerHandle_t xTimer)
 
 static int hp_timer_init(int num)
 {
-    timer_headphone = xTimerCreate("hp_timer0", HP_DELAY_TIME_MS / portTICK_RATE_MS, pdFALSE, (void *) num, hp_timer_cb);
+    timer_headphone = xTimerCreate("hp_timer0", HP_DELAY_TIME_MS / portTICK_PERIOD_MS, pdFALSE, (void *) num, hp_timer_cb);
     if (timer_headphone == NULL) {
         ESP_LOGE(TAG, "hp_timer create err");
         return ESP_FAIL;
@@ -70,7 +70,7 @@ static void IRAM_ATTR headphone_gpio_intr_handler(void *arg)
 
 void headphone_detect_deinit()
 {
-    xTimerDelete(timer_headphone, HP_DELAY_TIME_MS / portTICK_RATE_MS);
+    xTimerDelete(timer_headphone, HP_DELAY_TIME_MS / portTICK_PERIOD_MS);
     gpio_uninstall_isr_service();
     timer_headphone = NULL;
 }

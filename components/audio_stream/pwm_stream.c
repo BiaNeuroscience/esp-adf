@@ -664,7 +664,7 @@ static esp_err_t _pwm_open(audio_element_handle_t self)
     if (pwm->is_open) {
         return ESP_OK;
     }
-    res = audio_element_set_input_timeout(self, 2000 / portTICK_RATE_MS);
+    res = audio_element_set_input_timeout(self, 2000 / portTICK_PERIOD_MS);
     pwm->is_open = true;
     return res;
 }

@@ -47,7 +47,7 @@ static int _el_read(audio_element_handle_t self, char *buffer, int len, TickType
 static int _el_process(audio_element_handle_t self, char *in_buffer, int in_len, char *out_buffer, int out_len)
 {
     ESP_LOGI(TAG, "[%s] _el_process, in_len=%d, outlen=%d", audio_element_get_tag(self), in_len, out_len);
-    vTaskDelay(100/portTICK_RATE_MS);
+    vTaskDelay(100/portTICK_PERIOD_MS);
     return in_len;
 }
 
@@ -103,12 +103,12 @@ TEST_CASE("audio_pipeline", "esp-adf")
 
     TEST_ASSERT_EQUAL(ESP_OK, audio_pipeline_run(pipeline));
 
-    vTaskDelay(10000/portTICK_RATE_MS);
+    vTaskDelay(10000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_pipeline_stop(pipeline));
     TEST_ASSERT_EQUAL(ESP_OK, audio_pipeline_wait_for_stop(pipeline));
     TEST_ASSERT_EQUAL(ESP_OK, audio_pipeline_unlink(pipeline));
     TEST_ASSERT_EQUAL(ESP_OK, audio_pipeline_run(pipeline));
-    vTaskDelay(5000/portTICK_RATE_MS);
+    vTaskDelay(5000/portTICK_PERIOD_MS);
     TEST_ASSERT_EQUAL(ESP_OK, audio_pipeline_stop(pipeline));
     TEST_ASSERT_EQUAL(ESP_OK, audio_pipeline_wait_for_stop(pipeline));
     TEST_ASSERT_EQUAL(ESP_OK, audio_pipeline_deinit(pipeline));

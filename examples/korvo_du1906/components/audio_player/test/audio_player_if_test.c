@@ -65,7 +65,7 @@ TEST_CASE("esp_palyer_init", "Player-IF-TEST")
         cfg.handle = setup_esp_audio_instance(NULL);
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_init(&cfg));
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_deinit());
-        vTaskDelay(10 / portTICK_RATE_MS);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
         AUDIO_MEM_SHOW(TAG);
         ESP_LOGW(TAG, "[✓] player %d \r\n", i);
     }
@@ -76,12 +76,12 @@ TEST_CASE("esp_palyer_init", "Player-IF-TEST")
         cfg.handle = setup_esp_audio_instance(NULL);
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_init(&cfg));
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_deinit());
-        vTaskDelay(10 / portTICK_RATE_MS);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
         AUDIO_MEM_SHOW(TAG);
 
     }
     ESP_LOGW(TAG, "[✓] player  Done\r\n");
-    vTaskDelay(500 / portTICK_RATE_MS);
+    vTaskDelay(500 / portTICK_PERIOD_MS);
     AUDIO_MEM_SHOW(TAG);
 }
 
@@ -182,7 +182,7 @@ TEST_CASE("audio_player_music_play and stop", "ADF-IF-TEST")
     vQueueDelete(player_que);
     deinit_audio_player();
     test_teardown();
-    vTaskDelay(1000 / portTICK_RATE_MS);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
     AUDIO_MEM_SHOW(TAG);
 }
 
@@ -229,7 +229,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         ESP_LOGE(TAG, "Case: Music playing, block play tone with auto resume, %d, %s ", i, dec_uri[i]);
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_music_play(dec_uri[i], 0, MEDIA_SRC_TYPE_MUSIC_SD));
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_RUNNING, audio_player_status_check(player_que, 10000));
-        vTaskDelay(2000 / portTICK_RATE_MS);
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_tone_play("flash://tone/5_Bt_Success.mp3", true, true, MEDIA_SRC_TYPE_TONE_FLASH));
         // Receive the music stopped event due to tone interrput play
         ESP_LOGE(TAG, "Case: Music playing, block play tone with auto resume %d", __LINE__);
@@ -237,7 +237,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         // Tone finished music running event
         ESP_LOGE(TAG, "Case: Music playing, block play tone with auto resume %d", __LINE__);
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_RUNNING, audio_player_status_check(player_que, 2000));
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         clear_queue_events(player_que);
         para.cb = ut_audio_player_stop;
         para.ticks_to_wait_ms = 3000;
@@ -248,7 +248,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         ESP_LOGE(TAG, "Case: Music playing, block play tone without auto resume");
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_music_play(dec_uri[i], 0, MEDIA_SRC_TYPE_MUSIC_SD));
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_RUNNING, audio_player_status_check(player_que, 10000));
-        vTaskDelay(2000 / portTICK_RATE_MS);
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_tone_play("flash://tone/5_Bt_Success.mp3", true, false, MEDIA_SRC_TYPE_TONE_FLASH));
         // Receive the music stopped event due to tone interrput play
         ESP_LOGE(TAG, "Case: Music playing, block play tone without auto resume %d", __LINE__);
@@ -258,7 +258,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_resume());
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_RUNNING, audio_player_status_check(player_que, 10000));
 
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         clear_queue_events(player_que);
         para.cb = ut_audio_player_stop;
         para.ticks_to_wait_ms = 2000;
@@ -289,7 +289,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         para.cb = ut_audio_player_stop;
         para.ticks_to_wait_ms = 3000;
         request_opt(&para);
-        vTaskDelay(5000 / portTICK_RATE_MS);
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
         // waiting for music stopped
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_STOPPED, audio_player_status_check(player_que, 10000));
 
@@ -322,7 +322,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         ESP_LOGE(TAG, "Case: Music playing, block play tone with auto resume, %d, %s ", i, dec_uri[i]);
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_music_play(dec_uri[i], 0, MEDIA_SRC_TYPE_MUSIC_SD));
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_RUNNING, audio_player_status_check(player_que, 10000));
-        vTaskDelay(1500 / portTICK_RATE_MS);
+        vTaskDelay(1500 / portTICK_PERIOD_MS);
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_tone_play("flash://tone/5_Bt_Success.mp3", true, true, MEDIA_SRC_TYPE_TONE_FLASH));
         // Receive the music stopped event due to tone interrput play
         ESP_LOGE(TAG, "Case: Music playing, block play tone with auto resume %d", __LINE__);
@@ -330,7 +330,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         // Tone finished music running event
         ESP_LOGE(TAG, "Case: Music playing, block play tone with auto resume %d", __LINE__);
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_RUNNING, audio_player_status_check(player_que, 10000));
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         clear_queue_events(player_que);
         para.cb = ut_audio_player_stop;
         para.ticks_to_wait_ms = 1000;
@@ -341,7 +341,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         ESP_LOGE(TAG, "Case: Music playing, block play tone without auto resume");
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_music_play(dec_uri[i], 0, MEDIA_SRC_TYPE_MUSIC_SD));
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_RUNNING, audio_player_status_check(player_que, 10000));
-        vTaskDelay(1500 / portTICK_RATE_MS);
+        vTaskDelay(1500 / portTICK_PERIOD_MS);
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_tone_play("flash://tone/5_Bt_Success.mp3", true, false, MEDIA_SRC_TYPE_TONE_FLASH));
         // Receive the music stopped event due to tone interrput play
         ESP_LOGE(TAG, "Case: Music playing, block play tone without auto resume %d", __LINE__);
@@ -351,7 +351,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         TEST_ASSERT_EQUAL(ESP_ERR_AUDIO_NO_ERROR, audio_player_resume());
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_RUNNING, audio_player_status_check(player_que, 10000));
 
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         clear_queue_events(player_que);
         para.cb = ut_audio_player_stop;
         para.ticks_to_wait_ms = 1000;
@@ -382,7 +382,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
         para.cb = ut_audio_player_stop;
         para.ticks_to_wait_ms = 1000;
         request_opt(&para);
-        vTaskDelay(1500 / portTICK_RATE_MS);
+        vTaskDelay(1500 / portTICK_PERIOD_MS);
         // waiting for music stopped
         TEST_ASSERT_EQUAL(AUDIO_PLAYER_STATUS_STOPPED, audio_player_status_check(player_que, 10000));
 
@@ -416,7 +416,7 @@ TEST_CASE("music and tone play", "ADF-IF-TEST")
     deinit_audio_player();
     AUDIO_MEM_SHOW(TAG);
     test_teardown();
-    vTaskDelay(1000 / portTICK_RATE_MS);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
 }
 
 TEST_CASE("music play with play mode", "ADF-IF-TEST")
@@ -477,5 +477,5 @@ TEST_CASE("music play with play mode", "ADF-IF-TEST")
     deinit_audio_player();
     AUDIO_MEM_SHOW(TAG);
     teardown_sdcard();
-    vTaskDelay(1000 / portTICK_RATE_MS);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
 }

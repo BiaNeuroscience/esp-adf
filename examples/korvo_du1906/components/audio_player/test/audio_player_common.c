@@ -76,7 +76,7 @@ const char *dec_err_uri[] = {
 static void opt_task(void *para)
 {
     opt_para_t *opt = (opt_para_t *) para;
-    int delay = opt->ticks_to_wait_ms / portTICK_RATE_MS;
+    int delay = opt->ticks_to_wait_ms / portTICK_PERIOD_MS;
     ESP_LOGW(TAG, "Delay %d", delay);
     vTaskDelay(delay);
     opt->cb(opt->ctx);
@@ -170,7 +170,7 @@ void uri_list_play_stop_opt(esp_audio_handle_t handle, QueueHandle_t que, async_
                 ESP_LOGE(TAG, "player status:%d", st.status);
             }
         }
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         show_task_list();
     }
 }
@@ -191,7 +191,7 @@ void uri_list_sync_play_stop_opt(esp_audio_handle_t handle, QueueHandle_t que, c
             .ticks_to_wait_ms = 0,
         };
         request_opt(&para);
-        vTaskDelay(100 / portTICK_RATE_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
 
         para.cb = ut_audio_player_stop;
         para.ctx = handle;

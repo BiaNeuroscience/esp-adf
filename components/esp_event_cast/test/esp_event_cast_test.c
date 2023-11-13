@@ -42,7 +42,7 @@ static void task_send(void *pv)
     int buf[3] = {0};
     int i = 0x33;
     while (1) {
-        vTaskDelay(5000 / portTICK_RATE_MS);
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
         memset(&buf, i++, sizeof(buf));
         esp_event_cast_broadcasting(broadcast, &buf);
         printf("%s, i = %x, count=%x\r\n", __func__, i, esp_event_cast_get_count(broadcast));
@@ -218,7 +218,7 @@ TEST_CASE("broadcasting from task and receiver", "[esp_event_cast]")
 
     int buf[3] = {0};
     for (int i = 20; i <= 50; ++i) {
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         buf[0] = i;
         buf[1] = i;
         buf[2] = i;
@@ -246,7 +246,7 @@ TEST_CASE("Received data in real time", "[esp_event_cast]")
 
     int buf[3] = {0};
     for (int i = 1; i <= 500; ++i) {
-        // vTaskDelay(1000 / portTICK_RATE_MS);
+        // vTaskDelay(1000 / portTICK_PERIOD_MS);
         buf[0] = i;
         buf[1] = i;
         buf[2] = i;

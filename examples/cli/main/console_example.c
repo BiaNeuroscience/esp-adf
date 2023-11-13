@@ -269,10 +269,10 @@ static esp_err_t cli_stop_tone(esp_periph_handle_t periph, int argc, char *argv[
 {
     ESP_LOGI(TAG, "Stop done");
     if (tone_stop_tm_handle == NULL) {
-        tone_stop_tm_handle = xTimerCreate("hp_timer0", 3000 / portTICK_RATE_MS, pdFALSE, NULL, tone_stop_timer_cb);
+        tone_stop_tm_handle = xTimerCreate("hp_timer0", 3000 / portTICK_PERIOD_MS, pdFALSE, NULL, tone_stop_timer_cb);
         AUDIO_NULL_CHECK(TAG, tone_stop_tm_handle, return ESP_FAIL;);
     }
-    xTimerReset(tone_stop_tm_handle, 1000 / portTICK_RATE_MS);
+    xTimerReset(tone_stop_tm_handle, 1000 / portTICK_PERIOD_MS);
     return ESP_OK;
 }
 

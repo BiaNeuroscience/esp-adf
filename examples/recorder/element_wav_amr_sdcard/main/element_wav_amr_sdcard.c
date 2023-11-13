@@ -184,7 +184,7 @@ void app_main()
     int second_recorded = 0;
     while (1) {
         ESP_LOGI(TAG, "[ * ] Recording ... %d", second_recorded);
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         second_recorded++;
         if (second_recorded >= RECORD_TIME_SECONDS) {
             ESP_LOGI(TAG, "Finishing recording");

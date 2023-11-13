@@ -25,7 +25,14 @@
 #ifndef _I2S_STREAM_WRITER_H_
 #define _I2S_STREAM_WRITER_H_
 
+#if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0))
+#include "driver/i2s_pdm.h"
+#include "driver/i2s_tdm.h"
+#include "driver/i2s_std.h"
+#else
 #include "driver/i2s.h"
+#endif
+
 #include "audio_common.h"
 #include "audio_error.h"
 #include "audio_idf_version.h"
@@ -40,8 +47,28 @@ extern "C" {
  */
 typedef struct {
     audio_stream_type_t     type;               /*!< Type of stream */
+#if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0))
+    i2s_comm_mode_t    transmit_mode;          /*!< I2S transmit mode */
+    i2s_chan_config_t chan_cfg;
+    union  
+    {
+        struct {
+            i2s_std_config_t std_config;
+        } std_mode;
+        struct {
+            i2s_pdm_rx_config_t pdm_rx_config;
+            i2s_pdm_tx_config_t pdm_tx_config;
+        } pdm_mode;
+        struct {
+            i2s_tdm_config_t  tdm_config;
+        } tdm_mode;
+    } transmit_cfg;
+    i2s_data_bit_width_t    expand_src_bits;    /*!< The source bits per sample when data expand */
+#else
     i2s_config_t            i2s_config;         /*!< I2S driver configurations */
     i2s_port_t              i2s_port;           /*!< I2S driver hardware port */
+    i2s_bits_per_sample_t   expand_src_bits;    /*!< The source bits per sample when data expand */
+#endif 
     bool                    use_alc;            /*!< It is a flag for ALC. If use ALC, the value is true. Or the value is false */
     int                     volume;             /*!< The volume of audio input data will be set. */
     int                     out_rb_size;        /*!< Size of output ringbuffer */
@@ -52,7 +79,6 @@ typedef struct {
     int                     multi_out_num;      /*!< The number of multiple output */
     bool                    uninstall_drv;      /*!< whether uninstall the i2s driver when stream destroyed*/
     bool                    need_expand;        /*!< whether to expand i2s data */
-    i2s_bits_per_sample_t   expand_src_bits;    /*!< The source bits per sample when data expand */
     int                     buffer_len;         /*!< Buffer length use for an Element. Note: when 'bits_per_sample' is 24 bit, the buffer length must be a multiple of 3. The recommended value is 3600 */
 } i2s_stream_cfg_t;
 
@@ -91,6 +117,7 @@ typedef struct {
     .need_expand = false,                                                       \
     .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
     .buffer_len = I2S_STREAM_BUF_SIZE,                                          \
+    .transmit_mode = i2s_std_mode,                                              \
 }
 
 #define I2S_STREAM_INTERNAL_DAC_CFG_DEFAULT() {                                 \
@@ -120,6 +147,7 @@ typedef struct {
     .uninstall_drv = false,                                                     \
     .need_expand = false,                                                       \
     .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
+    .transmit_mode = i2s_std_mode,                                              \
 }
 
 #define I2S_STREAM_TX_PDM_CFG_DEFAULT() {                                       \
@@ -149,7 +177,8 @@ typedef struct {
     .need_expand = false,                                                       \
     .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
 }
-#else
+#elif (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) && ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0))
+
 #define I2S_STREAM_CFG_DEFAULT() {                                              \
     .type = AUDIO_STREAM_WRITER,                                                \
     .i2s_config = {                                                             \
@@ -236,6 +265,118 @@ typedef struct {
     .need_expand = false,                                                       \
     .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
 }
+#else 
+#define I2S_STREAM_CFG_DEFAULT() {                                              \
+    .type = AUDIO_STREAM_WRITER,                                                \
+    .transmit_mode = I2S_COMM_MODE_STD,                                         \
+    .chan_cfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER),         \
+    .transmit_cfg = {                                                           \
+        .std_mode = {                                                           \
+            .std_config = {                                                     \
+                .clk_cfg = I2S_STD_CLK_DEFAULT_CONFIG(44100),                   \
+                .slot_cfg = I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_STEREO), \
+                .gpio_cfg = {                                                   \
+                    .invert_flags = {                                           \
+                        .mclk_inv = false,                                      \
+                        .bclk_inv = false,                                      \
+                        .ws_inv = false,                                        \
+                    },                                                          \
+                },                                                              \
+            },                                                                  \
+        },                                                                      \
+    },                                                                          \
+    .use_alc = false,                                                           \
+    .volume = 0,                                                                \
+    .out_rb_size = I2S_STREAM_RINGBUFFER_SIZE,                                  \
+    .task_stack = I2S_STREAM_TASK_STACK,                                        \
+    .task_core = I2S_STREAM_TASK_CORE,                                          \
+    .task_prio = I2S_STREAM_TASK_PRIO,                                          \
+    .stack_in_ext = false,                                                      \
+    .multi_out_num = 0,                                                         \
+    .uninstall_drv = true,                                                      \
+    .need_expand = false,                                                       \
+    .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
+    .buffer_len = I2S_STREAM_BUF_SIZE,                                          \
+}
+
+#if SOC_I2S_SUPPORTS_PDM
+#define I2S_STREAM_TX_PDM_CFG_DEFAULT() {                                       \
+    .type = AUDIO_STREAM_WRITER,                                                \
+    .transmit_mode = I2S_COMM_MODE_PDM,                                         \
+    .chan_cfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER),         \
+    .transmit_cfg = {                                                           \
+        .pdm_mode = {                                                           \
+            .pdm_tx_config = {                                                  \
+                .clk_cfg = I2S_PDM_TX_CLK_DEFAULT_CONFIG(16000),                \
+                .slot_cfg = I2S_PDM_TX_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO),\
+                .gpio_cfg = {                                                   \
+                    .invert_flags = {                                           \
+                        .clk_inv = false,                                       \
+                    },                                                          \
+                },                                                              \
+            },                                                                  \
+            .pdm_rx_config = {                                                  \
+                .clk_cfg = I2S_PDM_RX_CLK_DEFAULT_CONFIG(16000),                \
+                .slot_cfg = I2S_PDM_RX_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO),\
+                .gpio_cfg = {                                                   \
+                    .invert_flags = {                                           \
+                        .clk_inv = false,                                       \
+                    },                                                          \
+                },                                                              \
+            },                                                                  \
+        },                                                                      \
+    },                                                                          \
+    .use_alc = false,                                                           \
+    .volume = 0,                                                                \
+    .out_rb_size = I2S_STREAM_RINGBUFFER_SIZE,                                  \
+    .task_stack = I2S_STREAM_TASK_STACK,                                        \
+    .task_core = I2S_STREAM_TASK_CORE,                                          \
+    .task_prio = I2S_STREAM_TASK_PRIO,                                          \
+    .stack_in_ext = false,                                                      \
+    .multi_out_num = 0,                                                         \
+    .uninstall_drv = true,                                                      \
+    .need_expand = false,                                                       \
+    .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
+    .buffer_len = I2S_STREAM_BUF_SIZE,                                          \
+}
+#endif // SOC_I2S_SUPPORTS_PDM
+
+#if SOC_I2S_SUPPORTS_TDM
+#define I2S_STREAM_TX_TDM_CFG_DEFAULT() {                                       \
+    .type = AUDIO_STREAM_READER,                                                \
+    .transmit_mode = I2S_COMM_MODE_TDM,                                         \
+    .chan_cfg = I2S_CHANNEL_DEFAULT_CONFIG(I2S_NUM_0, I2S_ROLE_MASTER),         \
+    .transmit_cfg = {                                                           \
+        .tdm_mode = {                                                           \
+            .tdm_config = {                                                     \
+                .clk_cfg  = I2S_TDM_CLK_DEFAULT_CONFIG(16000),                  \
+                .slot_cfg = I2S_TDM_PHILIPS_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_STEREO,              \
+                                                            I2S_TDM_SLOT0 | I2S_TDM_SLOT1 | I2S_TDM_SLOT2 | I2S_TDM_SLOT3),  \
+                .gpio_cfg = {                                                   \
+                    .invert_flags = {                                           \
+                        .mclk_inv = false,                                      \
+                        .bclk_inv = false,                                      \
+                        .ws_inv   = false,                                      \
+                    },                                                          \
+                },                                                              \
+            },                                                                  \
+        },                                                                      \
+    },                                                                          \
+    .use_alc = false,                                                           \
+    .volume = 0,                                                                \
+    .out_rb_size = I2S_STREAM_RINGBUFFER_SIZE,                                  \
+    .task_stack = I2S_STREAM_TASK_STACK,                                        \
+    .task_core = I2S_STREAM_TASK_CORE,                                          \
+    .task_prio = I2S_STREAM_TASK_PRIO,                                          \
+    .stack_in_ext = false,                                                      \
+    .multi_out_num = 0,                                                         \
+    .uninstall_drv = true,                                                      \
+    .need_expand = false,                                                       \
+    .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
+    .buffer_len = I2S_STREAM_BUF_SIZE,                                          \
+}
+#endif // SOC_I2S_SUPPORTS_TDM
+
 #endif
 
 /**

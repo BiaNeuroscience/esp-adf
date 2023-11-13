@@ -25,13 +25,13 @@
 #ifndef _I2S_STREAM_WRITER_H_
 #define _I2S_STREAM_WRITER_H_
 
-#if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0))
+// #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0))
 #include "driver/i2s_pdm.h"
 #include "driver/i2s_tdm.h"
 #include "driver/i2s_std.h"
-#else
-#include "driver/i2s.h"
-#endif
+// #else
+// #include "driver/i2s.h"
+// #endif
 
 #include "audio_common.h"
 #include "audio_error.h"
@@ -295,7 +295,7 @@ typedef struct {
     .multi_out_num = 0,                                                         \
     .uninstall_drv = true,                                                      \
     .need_expand = false,                                                       \
-    .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
+    .expand_src_bits = I2S_DATA_BIT_WIDTH_16BIT,                                \
     .buffer_len = I2S_STREAM_BUF_SIZE,                                          \
 }
 
@@ -336,7 +336,7 @@ typedef struct {
     .multi_out_num = 0,                                                         \
     .uninstall_drv = true,                                                      \
     .need_expand = false,                                                       \
-    .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
+    .expand_src_bits = I2S_DATA_BIT_WIDTH_16BIT,                                \
     .buffer_len = I2S_STREAM_BUF_SIZE,                                          \
 }
 #endif // SOC_I2S_SUPPORTS_PDM
@@ -372,7 +372,7 @@ typedef struct {
     .multi_out_num = 0,                                                         \
     .uninstall_drv = true,                                                      \
     .need_expand = false,                                                       \
-    .expand_src_bits = I2S_BITS_PER_SAMPLE_16BIT,                               \
+    .expand_src_bits = I2S_DATA_BIT_WIDTH_16BIT,                                \
     .buffer_len = I2S_STREAM_BUF_SIZE,                                          \
 }
 #endif // SOC_I2S_SUPPORTS_TDM

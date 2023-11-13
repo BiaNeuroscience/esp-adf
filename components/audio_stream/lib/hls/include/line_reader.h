@@ -48,7 +48,7 @@ typedef struct {
 /**
  * @brief      Initialize line reader
  *
- * @param      line_size: Maximum characters in one line
+ * @param      line_size Maximum characters in one line
  *
  * @return     Line reader instance
  */
@@ -57,19 +57,17 @@ line_reader_t* line_reader_init(int line_size);
 /**
  * @brief      Add buffer to line reader
  *
- * @param      reader: Line reader instance
- * @param      buffer: Buffer to be parsed
- * @param      size: Buffer size to be parsed
- * @param      eos: Whether data to be processed reached end or not
+ * @param      reader Line reader instance
+ * @param      buffer Buffer to be parsed
+ * @param      size Buffer size to be parsed
+ * @param      eos Whether data to be processed reached end or not
  */
 void line_reader_add_buffer(line_reader_t* reader, uint8_t* buffer, int size, bool eos);
 
 /**
  * @brief      Get one line data from line reader
  *
- * @param      reader: Line reader instance
- * @param      buffer: Buffer to be parsed
- * @param      size: Buffer size
+ * @param      reader Line reader instance
  * @return     Line data
  */
 char* line_reader_get_line(line_reader_t* reader);
@@ -77,7 +75,7 @@ char* line_reader_get_line(line_reader_t* reader);
 /**
  * @brief      Deinitialize line reader
  *
- * @param      reader: Line reader instance
+ * @param      reader Line reader instance
  */
 void line_reader_deinit(line_reader_t* reader);
 

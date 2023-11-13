@@ -50,9 +50,9 @@ typedef enum {
  * @brief Audio service event informations
  */
 typedef struct {
-    int         type;       /*!< Type of event */
     void       *source;     /*!< Event source */
     void       *data;       /*!< Event data */
+    int         type;       /*!< Type of event */
     int         len;        /*!< Length of data */
 } service_event_t;
 
@@ -64,9 +64,6 @@ typedef esp_err_t (*service_callback)(audio_service_handle_t handle, service_eve
  * @brief Audio service configurations
  */
 typedef struct {
-    int                 task_stack;             /*!< >0 Service task stack; =0 with out task created */
-    int                 task_prio;              /*!< Service task priority (based on freeRTOS priority) */
-    int                 task_core;              /*!< Service task running in core (0 or 1) */
     TaskFunction_t      task_func;              /*!< A pointer to TaskFunction_t for service task function */
     service_ctrl        service_start;          /*!< Start function */
     service_ctrl        service_stop;           /*!< Stop function */
@@ -75,6 +72,9 @@ typedef struct {
     service_ctrl        service_destroy;        /*!< Destroy function */
     const char          *service_name;          /*!< Name of audio service */
     void                *user_data;             /*!< User context */
+    int                 task_stack;             /*!< >0 Service task stack; =0 with out task created */
+    int                 task_prio;              /*!< Service task priority (based on freeRTOS priority) */
+    int                 task_core;              /*!< Service task running in core (0 or 1) */
 } audio_service_config_t;
 
 /**

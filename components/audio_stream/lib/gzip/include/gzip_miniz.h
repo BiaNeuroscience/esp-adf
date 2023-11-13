@@ -24,6 +24,8 @@
 #ifndef _GZIP_MINIZ_H_
 #define _GZIP_MINIZ_H_
 
+#include <stdint.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -32,9 +34,9 @@ extern "C" {
  * @brief Configuration for gzip using miniz library
  */
 typedef struct {
+    void  *ctx;                                          /*!< Read context */
     int   (*read_cb)(uint8_t *data, int size, void *ctx); /*!< Read callback return size being read */
     int   chunk_size;                                    /*!< Chunk size default 32 if set to 0 */
-    void  *ctx;                                          /*!< Read context */
 } gzip_miniz_cfg_t;
 
 /**
@@ -44,16 +46,16 @@ typedef void *gzip_miniz_handle_t;
 
 /**
  * @brief         Initialize for gzip using miniz
- * @param         cfg: Configuration for gzip using miniz
- * @return        NULL: Input parameter wrong or no memory
+ * @param         cfg Configuration for gzip using miniz
+ * @return        NULL Input parameter wrong or no memory
  *                Others: Handle for gzip inflate operation
  */
 gzip_miniz_handle_t gzip_miniz_init(gzip_miniz_cfg_t *cfg);
 
 /**
  * @brief         Inflate and read data
- * @param         out: Data to read after inflated
- * @param         out_size: Data size to read
+ * @param         out Data to read after inflated
+ * @param         out_size Data size to read
  * @return        >= 0: Data size being read
  *                -1: Wrong input parameter or wrong data
  *                -2: Inflate error by miniz         
@@ -62,7 +64,7 @@ int gzip_miniz_read(gzip_miniz_handle_t zip, uint8_t *out, int out_size);
 
 /**
  * @brief         Deinitialize gzip using miniz
- * @param         zip: Handle for gzip
+ * @param         zip Handle for gzip
  * @return        0: On success
  *                -1: Input parameter wrong            
  */

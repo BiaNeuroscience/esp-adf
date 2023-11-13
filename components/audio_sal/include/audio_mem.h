@@ -47,8 +47,6 @@ void *audio_malloc(size_t size);
  *
  * @param[in]  ptr  memory pointer
  *
- * @return
- *     - void
  */
 void audio_free(void *ptr);
 
@@ -83,8 +81,6 @@ void *audio_calloc_inner(size_t nmemb, size_t size);
  * @param[in]  line   line of log
  * @param[in]  func   function name of log
  *
- * @return
- *     - void
  */
 void audio_mem_print(const char *tag, int line, const char *func);
 

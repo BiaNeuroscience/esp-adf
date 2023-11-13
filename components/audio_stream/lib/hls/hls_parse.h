@@ -217,8 +217,8 @@ typedef int (*hls_tag_callback) (hls_tag_info_t* tag_info, void* ctx);
 /**
  * @brief       Check whether input buffer match an Extended M3U Playlist file
  *
- * @param       b: Input Data
- * @param       len: Input Data length
+ * @param       b Input Data
+ * @param       len Input Data length
  * @return      -true: Matched ok
  *              -false: Not matched
  */
@@ -227,8 +227,8 @@ bool hls_matched(uint8_t* b, int len);
 /**
  * @brief       Check HLS file type
  *
- * @param       b: Input Data
- * @param       len: Input Data length
+ * @param       b Input Data
+ * @param       len Input Data length
  * @return      Recognize HLS file type media playlist file or master playlist file
  *              -HLS_FILE_TYPE_NONE on fail
  */
@@ -237,7 +237,7 @@ hls_file_type_t hls_get_file_type(uint8_t* b, int len);
 /**
  * @brief       Initialize HLS parser
  *
- * @param       parser: HLS parser struct
+ * @param       parser HLS parser struct
  * @return      -0: On success otherwise fail
  */
 int hls_parse_init(hls_parse_t* parser);
@@ -245,10 +245,10 @@ int hls_parse_init(hls_parse_t* parser);
 /**
  * @brief       Add buffer for HLS parser
  *
- * @param       parser: HLS parser instance
- * @param       buffer: Buffer to be parsed
- * @param       size: Buffer size
- * @param       eos: Whether it is last buffer or not
+ * @param       parser HLS parser instance
+ * @param       buffer Buffer to be parsed
+ * @param       size Buffer size
+ * @param       eos Whether it is last buffer or not
  * @return      -0: On success otherwise parser not initialized
  */
 int hls_parse_add_buffer(hls_parse_t* parser, uint8_t* buffer, int size, bool eos);
@@ -256,9 +256,9 @@ int hls_parse_add_buffer(hls_parse_t* parser, uint8_t* buffer, int size, bool eo
 /**
  * @brief       Start parsing of input data
  *
- * @param       parser: HLS parser instance
- * @param       cb: HLS tag callback
- * @param       ctx: Input context
+ * @param       parser HLS parser instance
+ * @param       cb HLS tag callback
+ * @param       ctx Input context
  * @return      -0: On success otherwise parse fail
  */
 int hls_parse(hls_parse_t* parser, hls_tag_callback cb, void* ctx);
@@ -273,7 +273,7 @@ void hls_parse_deinit(hls_parse_t* parser);
 /**
  * @brief       Convert HLS tag to string 
  *
- * @param       tag: HLS tag
+ * @param       tag HLS tag
  * @return      String representation of tag
  */
 const char* hls_tag2str(hls_tag_t tag);
@@ -281,7 +281,7 @@ const char* hls_tag2str(hls_tag_t tag);
 /**
  * @brief       Convert HLS tag attribute to string 
  *
- * @param       attr: HLS tag attribute
+ * @param       attr HLS tag attribute
  * @return      String representation of tag attribute
  */
 const char* hls_attr2str(hls_attr_t attr);

@@ -83,7 +83,7 @@ audio_event_iface_handle_t audio_event_iface_init(audio_event_iface_cfg_t *confi
         evt->external_queue = xQueueCreate(evt->external_queue_size, sizeof(audio_event_iface_msg_t));
         AUDIO_MEM_CHECK(TAG, evt->external_queue, goto _event_iface_init_failed);
     } else {
-        ESP_LOGD(TAG, "This emiiter have no queue set,%p", evt);
+        ESP_LOGD(TAG, "This emiiter have no queue set,%p", (void*)evt);
     }
 
     STAILQ_INIT(&evt->listening_queues);
@@ -106,7 +106,7 @@ static esp_err_t audio_event_iface_cleanup_listener(audio_event_iface_handle_t l
         audio_event_iface_msg_t dummy;
         while (audio_event_iface_read(listen, &dummy, 0) == ESP_OK);
         while (listen->queue_set && (xQueueRemoveFromSet(item->queue, listen->queue_set) != pdPASS)) {
-            ESP_LOGW(TAG, "Error remove listener,%p", item->queue);
+            ESP_LOGW(TAG, "Error remove listener,%p", (void*)item->queue);
             while (audio_event_iface_read(listen, &dummy, 0) == ESP_OK);
         }
     }

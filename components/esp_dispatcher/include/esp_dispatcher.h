@@ -121,9 +121,9 @@ esp_err_t esp_dispatcher_execute(esp_dispatcher_handle_t handle, int sub_event_i
  * brief      Execution function with specific index of event.
  *            This is a asynchronous interface.
  *
- * @param handle            The ESP dispatcher instance
+ * @param dh            The ESP dispatcher instance
  * @param sub_event_index   The index of event
- * @param arg               The arguments of execution function
+ * @param in_para           The arguments of execution function
  * @param ret_cb            The call back used to receive the function execute result
  * @param user_data         The data used in callback
  *
@@ -142,7 +142,7 @@ esp_err_t esp_dispatcher_execute_async(esp_dispatcher_handle_t dh, int sub_event
  * @param func              The function to invoke
  * @param exe_inst          The execution instance
  * @param arg               The arguments of execution function
- * @param result            The result of execution function
+ * @param[out] ret          The result of execution function
  *
  * @return
  *     - ESP_OK

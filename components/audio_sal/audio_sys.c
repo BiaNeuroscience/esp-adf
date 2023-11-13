@@ -37,7 +37,7 @@ static const char *TAG = "AUDIO_SYS";
 #define ARRAY_SIZE_OFFSET                   8   // Increase this if audio_sys_get_real_time_stats returns ESP_ERR_INVALID_SIZE
 #define AUDIO_SYS_TASKS_ELAPSED_TIME_MS  1000   // Period of stats measurement
 
-const char *task_state[] = {
+static const char *task_state[] = {
     "Running",
     "Ready",
     "Blocked",
@@ -48,7 +48,7 @@ const char *task_state[] = {
 /** @brief
  * "Extr": Allocated task stack from psram, "Intr": Allocated task stack from internel
  */
-const char *task_stack[] = {"Extr", "Intr"};
+static const char *task_stack[] = {"Extr", "Intr"};
 
 int audio_sys_get_tick_by_time_ms(int ms)
 {

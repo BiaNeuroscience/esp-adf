@@ -71,7 +71,7 @@ static uint64_t hls_get_int_value(char* attr)
     return (uint64_t)atoll(attr);
 }
 
-static int hls_get_float_value(char* attr)
+static double hls_get_float_value(char* attr)
 {
     return atof(attr);
 }

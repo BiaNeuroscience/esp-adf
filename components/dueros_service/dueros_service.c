@@ -182,9 +182,9 @@ static void dueros_task(void *pvParameters)
     int task_run                = 1;
     serv->duer_state            = SERVICE_STATE_IDLE;
     service_event_t serv_evt    = {
-        .type = 0,
         .source = serv,
         .data = &serv->duer_state,
+        .type = 0,
         .len = 0,
     };
 
@@ -321,9 +321,6 @@ audio_service_handle_t dueros_service_create()
     serv->duer_evt = xEventGroupCreate();
 
     audio_service_config_t duer_cfg = {
-        .task_stack = DUEROS_TASK_STACK_SIZE,
-        .task_prio  = DUEROS_TASK_PRIORITY,
-        .task_core  = 1,
         .task_func  = dueros_task,
         .service_start = dueros_start,
         .service_stop = dueros_stop,
@@ -332,6 +329,9 @@ audio_service_handle_t dueros_service_create()
         .service_destroy = dueros_destroy,
         .service_name = "duer_serv",
         .user_data = serv,
+        .task_stack = DUEROS_TASK_STACK_SIZE,
+        .task_prio  = DUEROS_TASK_PRIORITY,
+        .task_core  = 1,
     };
     audio_service_handle_t duer = audio_service_create(&duer_cfg);
     duer_serv_handle = duer;

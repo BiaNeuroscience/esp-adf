@@ -1,3 +1,5 @@
+#include "audio_url.h"
+
 #include <string.h>
 #include <ctype.h>
 #include "audio_error.h"

@@ -25,13 +25,13 @@
 #ifndef _I2S_STREAM_WRITER_H_
 #define _I2S_STREAM_WRITER_H_
 
-#if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) && ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(5, 0, 0))
-#include "driver/i2s.h"
-#else
+// #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0))
 #include "driver/i2s_pdm.h"
 #include "driver/i2s_tdm.h"
 #include "driver/i2s_std.h"
-#endif
+// #else
+// #include "driver/i2s.h"
+// #endif
 
 #include "audio_element.h"
 #include "audio_error.h"

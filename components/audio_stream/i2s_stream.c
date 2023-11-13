@@ -178,7 +178,7 @@ static esp_err_t _i2s_open(audio_element_handle_t self)
     }
 
     if (i2s->type == AUDIO_STREAM_WRITER) {
-        audio_element_set_input_timeout(self, 10 / portTICK_RATE_MS);
+        audio_element_set_input_timeout(self, 10 / portTICK_PERIOD_MS);
         ESP_LOGI(TAG, "AUDIO_STREAM_WRITER");
     }
     i2s->is_open = true;
@@ -230,7 +230,7 @@ static int _i2s_read(audio_element_handle_t self, char *buffer, int len, TickTyp
     audio_element_info_t info;
     audio_element_getinfo(self, &info);
     if (bytes_read > 0) {
-#ifdef CONFIG_IDF_TARGET_ESP32
+#if CONFIG_IDF_TARGET_ESP32
         if (info.channels == 1) {
             i2s_mono_fix(info.bits, (uint8_t *)buffer, bytes_read);
         }
@@ -247,7 +247,7 @@ static int _i2s_write(audio_element_handle_t self, char *buffer, int len, TickTy
     audio_element_getinfo(self, &info);
     int target_bits = info.bits;
     if (len > 0) {
-#ifdef CONFIG_IDF_TARGET_ESP32
+#if CONFIG_IDF_TARGET_ESP32
         target_bits = I2S_BITS_PER_SAMPLE_32BIT;
         if (info.channels == 1) {
             i2s_mono_fix(info.bits, (uint8_t *)buffer, len);

@@ -29,6 +29,7 @@
 #include "freertos/semphr.h"
 #include "freertos/event_groups.h"
 
+#include "esp_bit_defs.h"
 #include "esp_log.h"
 #include "audio_element.h"
 #include "audio_mem.h"
@@ -37,7 +38,7 @@
 #include "audio_thread.h"
 
 static const char *TAG = "AUDIO_ELEMENT";
-#define DEFAULT_MAX_WAIT_TIME       (2000/portTICK_RATE_MS)
+#define DEFAULT_MAX_WAIT_TIME       (2000/portTICK_PERIOD_MS)
 
 /**
  *  I/O Element Abstract
@@ -106,7 +107,7 @@ struct audio_element {
     int                         task_stack;
     int                         task_prio;
     int                         task_core;
-    xSemaphoreHandle            lock;
+    SemaphoreHandle_t           lock;
     audio_element_info_t        info;
     audio_element_info_t        *report_info;
 

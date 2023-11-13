@@ -81,7 +81,7 @@ void http_playlist_insert(http_playlist_t *playlist, char *track_uri)
     if (strstr(track_uri, "http") == track_uri) { // Full URI
         track->uri = audio_strdup(track_uri);
     } else {
-        track->uri = join_url((char*)host_uri, track_uri);
+        track->uri = join_url(host_uri, track_uri);
     }
     if (track->uri == NULL) {
         ESP_LOGE(TAG, "Error insert URI to playlist");

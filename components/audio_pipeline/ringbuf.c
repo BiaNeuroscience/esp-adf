@@ -362,13 +362,13 @@ esp_err_t rb_abort(ringbuf_handle_t rb)
     return err;
 }
 
-bool rb_is_full(ringbuf_handle_t rb)
-{
-    if (rb == NULL) {
-        return false;
-    }
-    return (rb->size == rb->fill_cnt);
-}
+// static bool rb_is_full(ringbuf_handle_t rb)
+// {
+//     if (rb == NULL) {
+//         return false;
+//     }
+//     return (rb->size == rb->fill_cnt);
+// }
 
 esp_err_t rb_done_write(ringbuf_handle_t rb)
 {
@@ -390,13 +390,13 @@ esp_err_t rb_unblock_reader(ringbuf_handle_t rb)
     return ESP_OK;
 }
 
-bool rb_is_done_write(ringbuf_handle_t rb)
-{
-    if (rb == NULL) {
-        return false;
-    }
-    return (rb->is_done_write);
-}
+// static bool rb_is_done_write(ringbuf_handle_t rb)
+// {
+//     if (rb == NULL) {
+//         return false;
+//     }
+//     return (rb->is_done_write);
+// }
 
 int rb_get_size(ringbuf_handle_t rb)
 {

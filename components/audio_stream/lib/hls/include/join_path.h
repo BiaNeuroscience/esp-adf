@@ -31,12 +31,12 @@ extern "C" {
 /**
  * @brief      Join two urls into one
  *
- * @param      host: Host uri address
- * @param      ext: Extension uri address
+ * @param      host Host uri address
+ * @param      ext Extension uri address
  *
  * @return     Full uri address
  */
-char* join_url(char* host, char* ext);
+char* join_url(const char* host, char* ext);
 
 #ifdef __cplusplus
 }

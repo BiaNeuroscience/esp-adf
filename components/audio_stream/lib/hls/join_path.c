@@ -26,7 +26,7 @@
 #include "audio_mem.h"
 #include "join_path.h"
 
-static char* get_slash(char* s, int len, int dir)
+static const char* get_slash(const char* s, int len, int dir)
 {
     if (len == 0) {
         return NULL;
@@ -38,7 +38,7 @@ static char* get_slash(char* s, int len, int dir)
            }
         }
     } else {
-        char* e = s + len;
+        const char* e = s + len;
         while (s < e) {
             if (*(s++) == '/') {
                 if (*s == '/') {
@@ -52,7 +52,7 @@ static char* get_slash(char* s, int len, int dir)
     return NULL;
 }
 
-char* join_url(char* base, char* ext)
+char* join_url(const char* base, char* ext)
 {
     if (memcmp(ext, "http", 4) == 0) {
         return audio_strdup(ext);
@@ -60,7 +60,7 @@ char* join_url(char* base, char* ext)
     int base_len = strlen(base);
     int ext_len  = strlen(ext);
     int ext_skip = 0;
-    char* s;
+    const char* s;
     if (memcmp(base, "http", 4)) {
         // local path
         char* ask = strchr(ext, '?');

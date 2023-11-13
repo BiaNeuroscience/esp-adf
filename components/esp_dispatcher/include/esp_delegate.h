@@ -37,8 +37,6 @@ extern "C" {
  * @note       This function is not thread safe.
  *             Tasks should not call this function at the same time when device boot up.
  *
- * @param
- *
  * @return
  *     - NULL,  Fail
  *     - Others, Success
@@ -47,8 +45,6 @@ esp_dispatcher_handle_t esp_dispatcher_get_delegate_handle(void);
 
 /**
  * @brief      Release the shared dispatcher handle, this will destroy the handle.
- *
- * @param
  *
  * @return
  *     - ESP_OK

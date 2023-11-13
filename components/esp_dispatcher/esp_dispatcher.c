@@ -114,7 +114,7 @@ static void dispatcher_event_task(void *parameters)
                 result.data = 0;
                 result.len = 0;
                 ESP_LOGD(TAG, "EXE type:%d, index:%x, pfunc:%p, %p, %d",
-                        msg.type, msg.sub_index, msg.pfunc, msg.arg.data, msg.arg.len);
+                        msg.type, msg.sub_index, (void*)msg.pfunc, msg.arg.data, msg.arg.len);
                 if (msg.sub_index != -1) {
                     exe_item = found_exe_func(dispch, msg.sub_index);
                     if (exe_item) {
@@ -129,7 +129,7 @@ static void dispatcher_event_task(void *parameters)
                     exe_handle = msg.instance;
                 } else {
                     result.err = ESP_ERR_ADF_NOT_SUPPORT;
-                    ESP_LOGW(TAG, "Unsupported type index:%x, pfunc:%p", msg.sub_index, msg.pfunc);
+                    ESP_LOGW(TAG, "Unsupported type index:%x, pfunc:%p", msg.sub_index, (void*)msg.pfunc);
                 }
                 if (exe_func) {
                     result.err = exe_func(exe_handle, &msg.arg, &result);
@@ -138,7 +138,7 @@ static void dispatcher_event_task(void *parameters)
                     msg.ret_cb(result, msg.user_data);
                 } else {
                     if (xQueueSend(dispch->result_que, &result, pdMS_TO_TICKS(0)) == pdFALSE) {
-                        ESP_LOGW(TAG, "Send result failed, pfunc: %p, index:%x", msg.pfunc, msg.sub_index);
+                        ESP_LOGW(TAG, "Send result failed, pfunc: %p, index:%x", (void*)msg.pfunc, msg.sub_index);
                     }
                 }
             } else if (msg.type == ESP_DISPCH_EVENT_TYPE_CMD) {
@@ -311,7 +311,7 @@ esp_dispatcher_handle_t esp_dispatcher_create(esp_dispatcher_config_t *cfg)
     impl->mutex = mutex_create();
     AUDIO_MEM_CHECK(TAG, impl->mutex, goto _failed;);
     STAILQ_INIT(&impl->exe_list);
-    ESP_LOGE(TAG, "exe first list: %p", STAILQ_FIRST(&impl->exe_list));
+    ESP_LOGE(TAG, "exe first list: %p", (void*)STAILQ_FIRST(&impl->exe_list));
 
     if (ESP_OK != audio_thread_create(&impl->thread,
                                           "esp_dispatcher",

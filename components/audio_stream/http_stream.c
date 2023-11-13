@@ -695,7 +695,7 @@ static bool _check_range_done(audio_element_handle_t self)
 {
     http_stream_t *http = (http_stream_t *)audio_element_getdata(self);
     bool last_range = http->is_last_range;
-    audio_element_info_t info = {};
+    audio_element_info_t info = {0};
     audio_element_getinfo(self, &info);
     // If not last range need reload uri from last position
     if (last_range == false && _http_load_uri(self, &info) != ESP_OK) {

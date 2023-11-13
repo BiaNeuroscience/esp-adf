@@ -48,8 +48,8 @@ typedef struct {
 /**
  * @brief       Insert a track into hls_playlist
  *
- * @param       playlist: Playlist handle
- * @param       track_uri: Track URI to be inserted in playlist
+ * @param       playlist Playlist handle
+ * @param       track_uri Track URI to be inserted in playlist
  *
  */
 void http_playlist_insert(http_playlist_t *playlist, char *track_uri);
@@ -57,7 +57,7 @@ void http_playlist_insert(http_playlist_t *playlist, char *track_uri);
 /**
  * @brief       Get next not-played track from playlist
  *
- * @param       playlist: Playlist handle
+ * @param       playlist Playlist handle
  *
  * @return
  *      - NULL: If no playable track
@@ -70,7 +70,7 @@ char *http_playlist_get_next_track(http_playlist_t *playlist);
 /**
  * @brief       Get last played track from playlist
  *
- * @param       playlist: Playlist handle
+ * @param       playlist Playlist handle
  *
  * @return
  *      - NULL: If no playable track
@@ -83,7 +83,7 @@ char *http_playlist_get_last_track(http_playlist_t *playlist);
 /**
  * @brief       Clear all the tracks from playlist
  *
- * @param       playlist: Playlist handle
+ * @param       playlist Playlist handle
  *
  */
 void http_playlist_clear(http_playlist_t *playlist);

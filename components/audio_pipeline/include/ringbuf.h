@@ -29,6 +29,8 @@
 #include "freertos/task.h"
 #include "freertos/semphr.h"
 #include "freertos/queue.h"
+#include "esp_err.h"
+
 #include <stdint.h>
 
 #ifdef __cplusplus

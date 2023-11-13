@@ -25,6 +25,7 @@
 #ifndef _AUDIO_EVENT_IFACE_H_
 #define _AUDIO_EVENT_IFACE_H_
 
+#include "esp_err.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 

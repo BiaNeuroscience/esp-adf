@@ -21,9 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
-#ifndef _BOARD_PINS_CONFIG_H_
-#define _BOARD_PINS_CONFIG_H_
+#pragma once
 
 #include "driver/i2c.h"
 #include "driver/spi_common.h"
@@ -37,6 +35,7 @@ extern "C" {
 /**
  * @brief                  Board i2s pin definition
  */
+// NOLINTNEXTLINE(altera-struct-pack-align)
 typedef struct {
     int mck_io_num;         /*!< MCK pin, output */
     int bck_io_num;         /*!< BCK pin, input in slave role, output in master role */
@@ -227,6 +226,4 @@ int8_t get_blue_led_gpio(void);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif

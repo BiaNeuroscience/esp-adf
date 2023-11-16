@@ -791,7 +791,7 @@ esp_err_t audio_pipeline_breakup_elements(audio_pipeline_handle_t pipeline, audi
     bool kept = true;
     ESP_LOGD(TAG, "audio_pipeline_breakup_elements IN,%p,%s", (void*)kept_ctx_el, kept_ctx_el != NULL ? audio_element_get_tag(kept_ctx_el) : "NULL");
     STAILQ_FOREACH_SAFE(el_item, &pipeline->el_list, next, el_tmp) {
-        ESP_LOGD(TAG, "%p, el:%08x, %s, in_rb:%p, out_rb:%p, linked:%d, el-kept:%d", __LINE__,
+          ESP_LOGD(TAG, "el:%p, %16s, in_rb:%p, out_rb:%p, el-list: linked:%d, kept:%d",
                  (void*)el_item->el, audio_element_get_tag(el_item->el),
                  (void*)audio_element_get_input_ringbuf(el_item->el),
                  (void*)audio_element_get_output_ringbuf(el_item->el),

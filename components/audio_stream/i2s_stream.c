@@ -159,7 +159,7 @@ static inline esp_err_t i2s_stream_check_data_bits(i2s_stream_t *i2s, int bits)
 static esp_err_t _i2s_open(audio_element_handle_t self)
 {
     i2s_stream_t *i2s = (i2s_stream_t *)audio_element_getdata(self);
-    ESP_LOGE(TAG, "_i2s_open");
+    ESP_LOGD(TAG, "_i2s_open");
     if (i2s->is_open) {
         return ESP_OK;
     }
@@ -528,7 +528,7 @@ static int i2s_driver_startup(audio_element_handle_t self, i2s_stream_cfg_t *i2s
 #if SOC_I2S_SUPPORTS_PDM
             case I2S_COMM_MODE_PDM:
                 get_i2s_pins(i2s_cfg->chan_cfg.id, &board_i2s_pin);
-                if (i2s_cfg->type == AUDIO_STREAM_READER) { 
+                if (i2s_cfg->type == AUDIO_STREAM_READER) {
                     i2s_cfg->transmit_cfg.pdm_mode.pdm_rx_config.gpio_cfg.clk = board_i2s_pin.bck_io_num;
                     i2s_cfg->transmit_cfg.pdm_mode.pdm_rx_config.gpio_cfg.din = board_i2s_pin.data_in_num;
                     I2S_CHANNEL_PDM_RX_INIT(i2s->rx_handle);
@@ -551,7 +551,7 @@ static int i2s_driver_startup(audio_element_handle_t self, i2s_stream_cfg_t *i2s
             case I2S_COMM_MODE_TDM:
                 get_i2s_pins(i2s_cfg->chan_cfg.id, &board_i2s_pin);
                 memcpy(&i2s_cfg->transmit_cfg.tdm_mode.tdm_config.gpio_cfg, &board_i2s_pin, sizeof(board_i2s_pin_t));
-                if (i2s_cfg->type == AUDIO_STREAM_READER) {              
+                if (i2s_cfg->type == AUDIO_STREAM_READER) {
                     I2S_CHANNEL_TDM_INIT(i2s->rx_handle, AUDIO_STREAM_READER);
                 } else if (i2s_cfg->type == AUDIO_STREAM_WRITER) {
                     I2S_CHANNEL_TDM_INIT(i2s->tx_handle, AUDIO_STREAM_WRITER);

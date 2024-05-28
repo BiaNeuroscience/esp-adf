@@ -43,7 +43,7 @@ typedef struct {
     i2c_config_t     i2c_conf;   /*!<I2C bus parameters*/
     i2c_port_t       i2c_port;   /*!<I2C port number */
     int              ref_count;  /*!<Reference Count for multiple client */
-    SemaphoreHandle_ bus_lock;   /*!<Lock for bus */
+    SemaphoreHandle_t bus_lock;   /*!<Lock for bus */
 } i2c_bus_t;
 
 static const char *TAG = "I2C_BUS";
